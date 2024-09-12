@@ -4,7 +4,7 @@
  "license": "",
  "id": "sohee.exercise.001",   
  "version": "1.0.0",
- "name": "Exercise-01",
+ "name": "sohee-Exercise-01",
  "icon": "https://sohee-local.github.io/SAC/%EC%A6%9D%EB%AA%85.jpg",
  "newInstancePrefix": "ExerciseCustomWidget",
  "description": "커스텀 위젯 가이드 예시 01",
@@ -12,7 +12,7 @@
  {
  "kind": "main",
  "tag": "sohee-exercise-001-main",
- "url": "https://sohee-local.github.io/SAC/main.js",
+ "url": "/main.js",
  "integrity": "",
  "ignoreIntegrity": true
  }
