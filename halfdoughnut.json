@@ -1,8 +1,8 @@
 {
   "eula": "",
-  "vendor": "SAP",
+  "vendor": "BSG",
   "license": "",
-  "id": "sohee-halfdoughnut",
+  "id": "sohee.halfdoughnut",
   "icon": "https://sohee-local.github.io/SAC/%EC%A6%9D%EB%AA%85.jpg",
   "version": "2.0.0",
   "name": "ECharts Half Doughnut Chart",
@@ -11,7 +11,7 @@
   "webcomponents": [
     {
       "kind": "main",
-      "tag": "sohee-halfdoughnut",
+      "tag": "sohee-halfdoughnut-001-main",
       "url": "https://sohee-local.github.io/SAC/main.js",
       "integrity": "",
       "ignoreIntegrity": true
