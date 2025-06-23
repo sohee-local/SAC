@@ -1,0 +1,65 @@
+{
+  "id": "sohee.3d.stacked.barchart",
+  "version": "1.0.0",
+  "name": "3D Stacked Bar Chart",
+  "description": "A custom 3D stacked bar chart visualization.",
+  "icon": "https://sohee-local.github.io/SAC/%EC%A6%9D%EB%AA%85.jpg",
+  "newInstancePrefix": "sohee3DStack",
+  "webcomponents": [
+    {
+      "kind": "main",
+      "url": "/webComponent.js",
+      "tag": "sohee-3dstackedchart",
+      "integrity": "",
+      "ignoreIntegrity": true
+    }
+  ],
+    "properties": {
+        "title": {
+            "type": "string",
+            "description": "Chart Title",
+            "default": "My 3D Stacked Chart"
+        },
+        "colorScheme": {
+            "type": "string",
+            "description": "Color Scheme",
+            "default": "Default"
+        },
+        "barWidth": {
+            "type": "number",
+            "description": "Width of bars",
+            "default": 0.8
+        },
+        "barDepth": {
+            "type": "number",
+            "description": "Depth of bars (for 3D effect)",
+            "default": 0.5
+        }
+    },
+    "events": {
+        "onBarClick": {
+            "description": "Fires when a bar is clicked"
+        }
+    },
+    "methods": {
+        "refreshChart": {
+            "description": "Refreshes the chart data."
+        }
+    },
+	 "dataBindings": {
+		"dataBinding": {
+			"feeds": [
+				{
+					"id": "dimensions",
+					"description": "Dimensions",
+					"type": "dimension"
+				},
+				{
+					"id": "measures",
+					"description": "Measures",
+					"type": "mainStructureMember"
+				}
+			]
+		}
+	 }
+}

@@ -1,108 +1,53 @@
-var getScriptPromisify = (src) => {
-  return new Promise((resolve) => {
-    $.getScript(src, resolve);
-  });
-};
+define(["https://cdn.plot.ly/plotly-2.30.0.min.js"], function () {
+  return {
+    render: function (widget) {
+      // ✅ 기존 컨테이너 정리
+      widget.container.innerHTML = "";
 
-(function () {
-  const prepared = document.createElement("template");
-  prepared.innerHTML = `
-        <style>
-        </style>
-        <div id="root" style="width: 100%; height: 100%;">
-        </div>
-      `;
-  class HalfDoughnutPrepped extends HTMLElement {
-    constructor() {
-      super();
+      // ✅ WebComponent 내부 Shadow DOM 사용
+      const shadowRoot = widget.shadowRoot;
+      const chartDiv = document.createElement("div");
+      const chartId = "plotly-3d-bar-" + widget.id; // unique ID
+      chartDiv.id = chartId;
+      chartDiv.style.width = "100%";
+      chartDiv.style.height = "100%";
+      shadowRoot.appendChild(chartDiv);
 
-      this._shadowRoot = this.attachShadow({ mode: "open" });
-      this._shadowRoot.appendChild(prepared.content.cloneNode(true));
-
-      this._root = this._shadowRoot.getElementById("root");
-
-      this._props = {};
-
-      this.render();
-    }
-
-    onCustomWidgetResize(width, height) {
-      this.render();
-    }
-
-    set myDataSource(dataBinding) {
-      this._myDataSource = dataBinding;
-      this.render();
-    }
-
-    async render() {
-      await getScriptPromisify(
-        "https://cdnjs.cloudflare.com/ajax/libs/echarts/5.0.0/echarts.min.js"
-
-      );
-
-      if (!this._myDataSource || this._myDataSource.state !== "success") {
-        return;
-      }
-
-      const dimension = this._myDataSource.metadata.feeds.dimensions.values[0];
-      const measure = this._myDataSource.metadata.feeds.measures.values[0];
-      const data = this._myDataSource.data.map((data) => {
-        return {
-          name: data[dimension].label,
-          value: data[measure].raw,
-        };
-      });
-
-      const halfValue = data.reduce((accumulator, item) => accumulator + item.value, 0);
- 
-      data.push({
-        // make an record to fill the bottom 50%
-        value: halfValue,
-        itemStyle: {
-          // stop the chart from rendering this piece
-          color: 'none',
-          decal: {
-            symbol: 'none'
-          }
-        },
-        label: {
-          show: false
-        }
-      });
-
-      const myChart = echarts.init(this._root, "wight");
-      const option = {
-        color: ['#0070F2', '#D2EFFF', '#4CB1FF', '#89D1FF'],
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b}: {c} ({d}%)",
-        },
-
-        series: [
-          {
-            name: '',
-            type: 'pie',
-            radius: ['40%', '70%'],
-            center: ['50%', '70%'],
-            // adjust the start angle
-            startAngle: 180,
-            label: {
-              show: true,
-              formatter(param) {
-                // correct the percentage
-                return param.name + ' (' + param.percent * 2 + '%)';
-              }
-            },
-            data,
-          },
-   
-
-        ],
+      const chartData = {
+        x: ["202401","202402","202403","202404","202405","202406","202407","202408","202409","202410","202411","202412","202501","202502","202503","202504"],
+        sdd: [8159,5646,4903,5048,7085,7549,6732,5340,5354,4261,2914,1083,1956,1031,1207,774],
+        itg: [3275,3312,2550,2586,1895,1897,1679,1172,1292,1279,1204,1075,783,1204,1112,491]
       };
-      myChart.setOption(option);
-    }
-  }
 
-  customElements.define("sohee-halfdoughnut-001-main", HalfDoughnutPrepped);
-})();
+      const trace1 = {
+        x: chartData.x,
+        y: chartData.sdd,
+        name: 'SDD Qty',
+        type: 'bar',
+        marker: { color: '#a84300' }
+      };
+
+      const trace2 = {
+        x: chartData.x,
+        y: chartData.itg,
+        name: 'ITG Qty',
+        type: 'bar',
+        marker: { color: '#f5c6a5' }
+      };
+
+      const layout = {
+        title: 'GLOBAL BUFFER',
+        barmode: 'stack',
+        showlegend: true,
+        margin: { t: 50, l: 40, r: 40, b: 80 },
+        paper_bgcolor: 'white',
+        plot_bgcolor: 'white',
+        xaxis: {
+          tickangle: -45
+        }
+      };
+
+      Plotly.newPlot(chartId, [trace1, trace2], layout);
+    }
+  };
+});
